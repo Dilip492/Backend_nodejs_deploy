@@ -4,10 +4,11 @@ const passport = require('passport');
 const cors = require("cors")
 const session = require('express-session')
 const cookieParser  = require('cookie-parser')
+require("dotenv").config()
 
 require('./routes/passport')
 const app = express();
-const port = 5000;
+const port = 5000 || process.env.PORT;
 app.use(cors({
   origin: 'http://localhost:3000', // React app URL
   credentials: true
