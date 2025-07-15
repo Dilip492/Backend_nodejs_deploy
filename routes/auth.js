@@ -40,11 +40,11 @@ router.post("/register", async (req, res) => {
         id: user.id,
       },
     };
-   
+
     const token = jwt.sign(payload, process.env.jwtsecret);
     const option = {
-      httpOnly:true,
-      secure:true
+      httpOnly: true,
+      secure: true
     }
 
     res.cookie("jwt", token, option);
@@ -58,7 +58,7 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;       
+  const { email, password } = req.body;
 
   if (!email || !password) {
     return res
@@ -85,20 +85,20 @@ router.post("/login", async (req, res) => {
           id: user.id,
         },
       };
-  
-   
-  
+
+
+
       const token = jwt.sign(payload, process.env.jwtsecret);
 
       console.log("This is token", token)
       const option = {
-        httpOnly: true, 
+        httpOnly: true,
         secure: true,
       };
 
       res.cookie("jwt", token, option).status(200)
       console.log("check token is set or not ", req.cookies.jwt)
-     
+
       return res.status(200).json({ Token: token });
     } else {
       return res.status(400).json({ message: "Incorrect email and password" });
@@ -118,7 +118,7 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:3000/login",
+    failureRedirect: "https://ministore-nine.vercel.app/login",
   }),
 
   (req, res) => {
@@ -129,21 +129,21 @@ router.get(
     if (req.user) {
       const { token } = req.user;
       const option = {
-        httpOnly: true, 
+        httpOnly: true,
         secure: true,
       };
       res.cookie("jwt", token, option);
-      return res.redirect(`http://localhost:3000/popup`);
+      return res.redirect(`https://ministore-nine.vercel.app`);
     }
     res.status(401).json({ message: "Authentication failed" });
   }
 );
 
 router.get("/protected-route", (req, res) => {
-  
+
 
   const token = req.cookies.jwt;
-  
+
   console.log("receive token : ", token);
 
   if (token) {

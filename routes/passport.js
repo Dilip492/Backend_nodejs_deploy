@@ -26,9 +26,10 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.NODE_ENV === 'production' 
-      ? 'https://backend-nodejs-deploy-1.onrender.com/auth/google/callback' 
-      : 'http://localhost:5000/auth/google/callback',
+      callbackURL:'https://ministore-nine.vercel.app'
+      // callbackURL: process.env.NODE_ENV === 'production' 
+      // ? 'https://backend-nodejs-deploy-1.onrender.com/auth/google/callback' 
+      // : 'http://localhost:5000/auth/google/callback',
     },
     async (accessToken, refreshToken, profile, cb) => {
       const newUser = {
@@ -37,7 +38,7 @@ passport.use(
         email: profile.emails[0].value,
       };
       try {
-        let user = await gUser.findOne({ googleId: newUser.googleId });
+        let user = await User.findOne({ googleId: newUser.googleId });
 
         if (!user) {
           user = new gUser(newUser);
